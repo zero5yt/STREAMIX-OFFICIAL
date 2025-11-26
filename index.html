@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamix - Watch Movies Free</title>
+    <style>
+        /* CSS STYLES */
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #0072ff;
+            --accent-color: #ff0055;
+            --text-color: #ffffff;
+            --glass-bg: rgba(0, 0, 0, 0.75);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* SMART BAR CONTAINER */
+        #smart-bar-container {
+            width: 100%;
+            z-index: 99999; /* Pinaka-mataas para di matakpan */
+            text-align: center;
+        }
+
+        /* MOVING BACKGROUND (Nasa likod pa rin to) */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -5; /* Nasa pinakalikod */
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            /* PALITAN ITO NG LINK NG IMAGE KUNG ONLINE, OR 'bg.jpg' KUNG LOCAL */
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            animation: zoomPan 20s infinite alternate linear;
+        }
+
+        /* FALLING PARTICLES EFFECT (Nasa HARAP na ngayon) */
+        .particle {
+            position: fixed; /* Fixed para nasa screen lagi */
+            top: -20px;
+            background: radial-gradient(circle, #fff, rgba(255,255,255,0)); /* Glowing effect */
+            border-radius: 50%;
+            animation: fall linear infinite;
+            z-index: 500; /* Mataas na Z-Index para nasa ibabaw ng content */
+            pointer-events: none; /* IMPORTANTE: Para napipindot pa rin ang buttons sa ilalim */
+        }
+
+        @keyframes zoomPan {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.2) translateY(-20px); }
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        /* MAIN CONTENT CONTAINER */
+        .container {
+            margin-top: 20px;
+            margin-bottom: 50px;
+            width: 90%;
+            max-width: 500px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10; /* Mas mababa sa particle (500) pero mas mataas sa background (-5) */
+        }
+
+        /* LOGO */
+        .app-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px var(--primary-color);
+            object-fit: cover;
+            background: #222; 
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .description {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* VIDEO TUTORIAL SECTION */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid var(--secondary-color);
+            z-index: 20; /* Para sigurado na clickable ang video play button */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tutorial-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* BUTTONS GRID */
+        .btn-grid {
+            display: grid;
+            gap: 15px;
+            position: relative;
+            z-index: 20; /* Clickable */
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Button Colors */
+        .btn-download {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(56, 239, 125, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(56, 239, 125, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(56, 239, 125, 0); }
+        }
+        
+        .btn-official {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .btn-store {
+            background: #333;
+            border: 1px solid #555;
+        }
+
+        .btn-direct {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        }
+
+        .btn i {
+            margin-right: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #666;
+            font-size: 0.8rem;
+            text-align: center;
+            z-index: 10;
+            background: rgba(0,0,0,0.8);
+            width: 100%;
+        }
+
+    </style>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SMART BAR SCRIPT -->
+    <div id="smart-bar-container">
+        <script type='text/javascript' src='//encasehighlight.com/fc/08/65/fc086515f18deaf71be787e5c5a45dce.js'></script>
+    </div>
+
+    <!-- MOVING BACKGROUND (IMAGE LANG) -->
+    <div class="background-container">
+        <div class="bg-image"></div>
+    </div>
+
+    <!-- Script para sa Falling Particles (HARAP / OVERLAY) -->
+    <script>
+        function createParticles() {
+            // Append direkta sa body para nasa taas ng layers
+            const body = document.body;
+            const particleCount = 35; // Dinamihan ko konti para mas cinematic
+
+            for (let i = 0; i < particleCount; i++) {
+                let particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random Size
+                let size = Math.random() * 6 + 2; 
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random Position
+                particle.style.left = `${Math.random() * 100}vw`;
+                
+                // Random Speed
+                particle.style.animationDuration = `${Math.random() * 3 + 4}s`; 
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Random Opacity
+                particle.style.opacity = Math.random() * 0.7 + 0.3; 
+                
+                body.appendChild(particle);
+            }
+        }
+        window.onload = createParticles;
+    </script>
+
+    <!-- MAIN CARD -->
+    <div class="container">
+        <img src="logo.png" alt="Streamix Logo" class="app-logo">
+
+        <h1>Streamix</h1>
+        <p class="description">
+            Watch your favorite movies and TV shows for free. <br>
+            Fast streaming, HD quality, and friendly interface.
+        </p>
+
+        <!-- VIDEO TUTORIAL -->
+        <span class="tutorial-label">How to Download & Install</span>
+        <div class="video-container">
+            <!-- Palitan ang SRC sa Youtube Embed link mo -->
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <!-- NOTES -->
+        <div style="text-align: left; margin-bottom: 20px; font-size: 0.85rem; color: #aaa; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 10px;">
+            <strong>📝 Notes:</strong><br>
+            1. Click the download button below.<br>
+            2. Allow "Install from Unknown Sources" in settings.<br>
+            3. Enjoy unlimited movies!
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="btn-grid">
+            <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-download">
+                <i class="fas fa-download"></i> Download App Now
+            </a>
+
+            <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-official">
+                <i class="fas fa-shield-alt"></i> Official App
+            </a>
+
+            <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-store">
+                <i class="fas fa-globe"></i> Stream Website
+            </a>
+
+            <div style="display: flex; gap: 10px;">
+                <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-store" style="font-size: 0.8rem;">
+                    <i class="fab fa-android"></i> APKPure
+                </a>
+                <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-store" style="font-size: 0.8rem;">
+                    <i class="fab fa-google-play"></i> PlayStore
+                </a>
+            </div>
+
+            <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-direct">
+                <i class="fas fa-bolt"></i> Direct Link
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; Copyright Roderick v. Almaras <br> All Rights Reserved.
+    </footer>
+
+</body>
+</html>
