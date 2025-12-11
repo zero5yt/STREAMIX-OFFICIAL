@@ -231,9 +231,9 @@
 </head>
 <body>
 
-    <!-- SMART BAR SCRIPT -->
+    <!-- ADSTERRA SOCIAL BANNER CODE (Para sa passive monetization) -->
     <div id="smart-bar-container">
-        <script type='text/javascript' src='//encasehighlight.com/fc/08/65/fc086515f18deaf71be787e5c5a45dce.js'></script>
+        <script type="text/javascript" src="//encasehighlight.com/fc/08/65/fc086515f18deaf71be787e5c5a45dce.js"></script>
     </div>
 
     <!-- MOVING BACKGROUND (IMAGE LANG) -->
@@ -272,22 +272,54 @@
         }
         window.onload = createParticles;
     </script>
+    
+    <!-- CUSTOM JAVASCRIPT: Adsterra Pop-under + Redirect Logic -->
+    <script>
+        // *** IMPORTANTE: Palitan ang URL na ito ng sarili mong ADSTERRA DIRECT LINK ***
+        const AD_POP_UNDER_URL = "https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb"; 
+
+        function monetizeAndRedirect(originalUrl) {
+            // 1. Trigger ang Ad (Pop-under) sa bagong tab
+            const adWindow = window.open(AD_POP_UNDER_URL, '_blank');
+            
+            // 2. I-focus ang current tab (para maging pop-under ang ad)
+            if (adWindow) {
+                adWindow.blur();
+                window.focus();
+            }
+
+            // 3. I-redirect ang current tab sa original na link pagkatapos ng maliit na delay
+            setTimeout(() => {
+                window.location.href = originalUrl;
+            }, 50); 
+            
+            // I-prevent ang default action ng <a> tag
+            return false; 
+        }
+    </script>
+
 
     <!-- MAIN CARD -->
     <div class="container">
         <img src="logo.png" alt="Streamix Logo" class="app-logo">
 
-        <h1>Streamix</h1>
+        <h1>Streamix Ph</h1>
         <p class="description">
             Watch your favorite movies and TV shows for free. <br>
             Fast streaming, HD quality, and friendly interface.
         </p>
 
-        <!-- VIDEO TUTORIAL -->
+        <!-- VIDEO TUTORIAL - UPDATED NA ITO -->
         <span class="tutorial-label">How to Download & Install</span>
         <div class="video-container">
-            <!-- Palitan ang SRC sa Youtube Embed link mo -->
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <!-- Palitan ang SRC sa Youtube EMBED link mo. Ang short URL na ito ay posibleng hindi gumana. -->
+            <iframe width="560" height="315" 
+                    src="https://short.icu/-fY1l_jx8" 
+                    title="Streamix Ph Video Tutorial" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+            </iframe>
         </div>
 
         <!-- NOTES -->
@@ -298,30 +330,31 @@
             3. Enjoy unlimited movies!
         </div>
 
-        <!-- BUTTONS -->
+        <!-- BUTTONS - LAHAT ITO AY NAKA-CALL NA SA monetizeAndRedirect() FUNCTION -->
         <div class="btn-grid">
-            <a href="https://rshrt.com/Streamix" class="btn btn-download">
+            <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-download">
                 <i class="fas fa-download"></i> Download App Now
             </a>
 
-            <a href="https://rshrt.com/Streamix" class="btn btn-official">
+            <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-official">
                 <i class="fas fa-shield-alt"></i> Official App
             </a>
 
-            <a href="https://streamix-ph.netlify.app/" class="btn btn-store">
+            <a href="#" onclick="return monetizeAndRedirect('https://streamix-ph.netlify.app/')" class="btn btn-store">
                 <i class="fas fa-globe"></i> Stream Website
             </a>
 
             <div style="display: flex; gap: 10px;">
-                <a href="https://rshrt.com/Streamix" class="btn btn-store" style="font-size: 0.8rem;">
+                <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-store" style="font-size: 0.8rem;">
                     <i class="fab fa-android"></i> APKPure
                 </a>
-                <a href="https://rshrt.com/Streamix" class="btn btn-store" style="font-size: 0.8rem;">
+                <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-store" style="font-size: 0.8rem;">
                     <i class="fab fa-google-play"></i> PlayStore
                 </a>
             </div>
 
-            <a href="https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb" class="btn btn-direct">
+            <!-- Kahit ang huling button ay naka-monetize pa rin para sure -->
+            <a href="#" onclick="return monetizeAndRedirect('https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb')" class="btn btn-direct">
                 <i class="fas fa-bolt"></i> Direct Link
             </a>
         </div>
