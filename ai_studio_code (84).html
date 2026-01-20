@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamix - Watch Movies Free</title>
+    <style>
+        /* CSS STYLES */
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #0072ff;
+            --accent-color: #ff0055;
+            --text-color: #ffffff;
+            --glass-bg: rgba(0, 0, 0, 0.75);
+            --pro-color: #e50914; /* Red for Pro */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* SMART BAR */
+        #smart-bar-container {
+            width: 100%;
+            z-index: 99999;
+            text-align: center;
+        }
+
+        /* BACKGROUND */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -5;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            animation: zoomPan 20s infinite alternate linear;
+        }
+
+        /* PARTICLES */
+        .particle {
+            position: fixed;
+            top: -20px;
+            background: radial-gradient(circle, #fff, rgba(255,255,255,0));
+            border-radius: 50%;
+            animation: fall linear infinite;
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        @keyframes zoomPan {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.2) translateY(-20px); }
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        /* CONTAINER */
+        .container {
+            margin-top: 20px;
+            margin-bottom: 50px;
+            width: 90%;
+            max-width: 500px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .app-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px var(--primary-color);
+            object-fit: cover;
+            background: #222; 
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            background: -webkit-linear-gradient(var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .description {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid var(--secondary-color);
+            z-index: 20;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .tutorial-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* BUTTONS */
+        .btn-grid {
+            display: grid;
+            gap: 15px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        /* Button Colors */
+        .btn-download-pro {
+            background: linear-gradient(45deg, #e50914, #ff0000);
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+            animation: pulse-red 2s infinite;
+        }
+
+        .btn-download-ph {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(229, 9, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
+        }
+        
+        .btn-official { background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); }
+        .btn-store { background: #333; border: 1px solid #555; }
+        .btn-direct { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+
+        .btn i { margin-right: 10px; }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            color: #666;
+            font-size: 0.8rem;
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            width: 100%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="smart-bar-container">
+        <script type="text/javascript" src="//encasehighlight.com/fc/08/65/fc086515f18deaf71be787e5c5a45dce.js"></script>
+    </div>
+
+    <div class="background-container">
+        <div class="bg-image"></div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const body = document.body;
+            for (let i = 0; i < 35; i++) {
+                let p = document.createElement('div');
+                p.classList.add('particle');
+                let size = Math.random() * 6 + 2; 
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = `${Math.random() * 100}vw`;
+                p.style.animationDuration = `${Math.random() * 3 + 4}s`; 
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                p.style.opacity = Math.random() * 0.7 + 0.3; 
+                body.appendChild(p);
+            }
+        }
+        window.onload = createParticles;
+    </script>
+    
+    <script>
+        const AD_POP_UNDER_URL = "https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb"; 
+        function monetizeAndRedirect(originalUrl) {
+            const adWindow = window.open(AD_POP_UNDER_URL, '_blank');
+            if (adWindow) {
+                adWindow.blur();
+                window.focus();
+            }
+            setTimeout(() => {
+                window.location.href = originalUrl;
+            }, 100); 
+            return false; 
+        }
+    </script>
+
+    <div class="container">
+        <img src="logo.png" alt="Streamix Logo" class="app-logo">
+        <h1>Streamix Ph</h1>
+        <p class="description">Watch your favorite movies and TV shows for free. <br> Fast streaming, HD quality, and friendly interface.</p>
+
+        <span class="tutorial-label">How to Download & Install</span>
+        <div class="video-container">
+            <iframe width="560" height="315" 
+                    src="https://short.icu/zW9UezEsYN" 
+                    title="Streamix Ph Video Tutorial" 
+                    frameborder="0" allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="btn-grid">
+            <!-- NEW: STREAMIX PRO APP -->
+            <a href="#" onclick="return monetizeAndRedirect('https://streamixphpro.infinityfreeapp.com/stx.php')" class="btn btn-download-pro">
+                <i class="fas fa-crown"></i> DOWNLOAD STREAMIX PRO
+            </a>
+
+            <!-- EXISTING: STREAMIX PH APP -->
+            <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-download-ph">
+                <i class="fas fa-download"></i> STREAMIX PH APP
+            </a>
+
+            <!-- NEW: STREAMIX PRO WEBSITE -->
+            <a href="#" onclick="return monetizeAndRedirect('https://streamixphpro.infinityfreeapp.com/index.php')" class="btn btn-official">
+                <i class="fas fa-globe"></i> Streamix Pro Website
+            </a>
+
+            <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/PinoMaxPh1_0_1')" class="btn btn-viva">
+                <i class="fas fa-fire"></i> PINOMAX PH
+            </a>
+
+            <div style="display: flex; gap: 10px;">
+                <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-store" style="font-size: 0.8rem; flex: 1;">
+                    <i class="fas fa-box-open"></i> APKPure
+                </a>
+                <a href="#" onclick="return monetizeAndRedirect('https://rshrt.com/Streamix')" class="btn btn-store" style="font-size: 0.8rem; flex: 1;">
+                    <i class="fab fa-google-play"></i> PlayStore
+                </a>
+            </div>
+
+            <a href="#" onclick="return monetizeAndRedirect('https://encasehighlight.com/tuwnc1ge?key=aa75acf007ec2ab9265e9dae93be2bdb')" class="btn btn-direct">
+                <i class="fas fa-bolt"></i> Direct Ad Link
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Copyright Roderick v. Almaras <br> All Rights Reserved.
+    </footer>
+</body>
+</html>
